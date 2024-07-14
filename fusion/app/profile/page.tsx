@@ -7,6 +7,7 @@ const ProfilePage: React.FC = () => {
     const [user, setUser] = useState({
         name: "",
         email: "",
+        _id: "",
     });
 
     useEffect(()=>{
@@ -25,7 +26,7 @@ const ProfilePage: React.FC = () => {
                     />
                     <div>
                         <h2 className="text-lg font-semibold">{user.name}</h2>
-                        {/* <p className="text-gray-500">Software Engineer</p> */}
+                        <p className="text-gray-500">{user._id}</p>
                     </div>
                 </div>
                 <div>
