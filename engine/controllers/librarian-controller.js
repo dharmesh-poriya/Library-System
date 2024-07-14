@@ -23,17 +23,19 @@ exports.assignBook = async (req, res) => {
 
         // Find the user
         const user = await User.findById(userId);
+        
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-
+        
         // Create a new borrow record
         const borrow = new Borrow({
             user: userId,
             book: bookId,
             dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now,
         });
-
+        user.borrowedBooks.push(borrow._id);
+        await user.save();
         await borrow.save();
 
         // Update book availability

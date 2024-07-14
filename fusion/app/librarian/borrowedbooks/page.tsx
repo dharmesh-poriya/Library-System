@@ -56,7 +56,7 @@ const Page: React.FC = () => {
     return (
     <div className="p-4">
       <div className="p-2">
-        <h1 className="text-2xl font-bold">My Current Books</h1>
+        <h1 className="text-2xl font-bold">Borrowed Books (Coming Soon 🚀)</h1>
         <div className="overflow-x-auto">
           <table className="table table-zebra">
             {/* head */}
@@ -76,36 +76,6 @@ const Page: React.FC = () => {
                                 <td>{book.book}</td>
                                 <td>{book.borrowDate}</td>
                                 <td>{book.dueDate}</td>
-                            </tr>
-                        );
-                    }
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div className="p-2">
-        <h1 className="text-2xl font-bold">Books History</h1>
-        <div className="overflow-x-auto">
-          <table className="table table-zebra">
-            {/* head */}
-            <thead>
-              <tr>
-                <th></th>
-                <th>Book Id</th>
-                <th>Issue Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              {books.map((book, index) => {
-                    if (book.status == "returned") {
-                        return (
-                            <tr key={index}>
-                                <td>{book.book}</td>
-                                <td>{book.borrowDate}</td>
-                                <td>{book.status}</td>
                             </tr>
                         );
                     }
