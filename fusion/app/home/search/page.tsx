@@ -26,38 +26,45 @@ export default async function Search({ searchParams }: {
     searchParams: SearchParams
 }) {
     let books = [];
-    let totalPages = 0;
-    let currentPage = 0;
-    let paginationRange = null;
-    let type = null;
 
     const query = searchParams.q ? searchParams.q : '';
 
-    if (searchParams.q) {
-        const type = searchParams.type ?? 'title'
-        
-        const searchResult = await searchBooks(
-            searchParams.q, 
-            searchParams.page,
-            type
-        );
+    const type = searchParams.type ?? 'title'
 
-        totalPages = searchResult.totalPages;
-        currentPage = searchResult.currentPage;
+    const searchResult = await searchBooks(
+        query,
+        searchParams.page,
+        type
+    );
 
-        paginationRange = Array.from({ length: totalPages }, (x, i) => i + 1);
+    const totalPages = searchResult.totalPages;
+    const currentPage = searchResult.currentPage;
 
-        books = searchResult.books.map(book => {
-            return {
-                id: book._id,
-                title: book.title,
-                description: book.genre,
-                publishedYear: new Date(book.date).getFullYear(),
-                author: book.author,
-                imageUrl: book.thumbnail
-            }
-        });
-    }
+    const paginationRange = Array.from({ length: totalPages }, (x, i) => i + 1);
+
+    const pageLinks = paginationRange.map(page => {
+        const params = new URLSearchParams();
+        params.append('page', page.toString());
+
+        if (searchParams.q) params.append('q', searchParams.q);
+        if (searchParams.type) params.append('type', searchParams.type);
+
+        return {
+            url: '/home/search?' + params.toString(),
+            page: page
+        };
+    });
+
+    books = searchResult.books.map(book => {
+        return {
+            id: book._id,
+            title: book.title,
+            description: book.genre,
+            publishedYear: new Date(book.date).getFullYear(),
+            author: book.author,
+            imageUrl: book.thumbnail
+        }
+    });
 
     return (
         <div className="container">
@@ -84,6 +91,15 @@ export default async function Search({ searchParams }: {
                         imageUrl={book.imageUrl}
                         key={book.id} />
                 ))}
+            </div>
+
+            <div className="join flex justify-center py-4">
+                {pageLinks.map(link => {
+                    let btnClass = '';
+                    if (link.page === currentPage) btnClass = 'btn-primary';
+
+                    return <a href={link.url} className={`btn join-item ${btnClass}`}>{link.page}</a>
+                })}
             </div>
         </div>
     );
