@@ -3,6 +3,7 @@ const Book = database.Book; // Ensure the correct path to your Book model
 const User = database.User; // Ensure the correct path to your User model
 const Borrow = database.Borrow; // Ensure the correct path to your Borrow model
 const Notification = database.Notification;
+const addLibrarianTemplate = require("../utils/email-templates/registrationLibrarien");
 
 // Add Book
 exports.addBook = async (req, res) => {
@@ -90,7 +91,12 @@ exports.addLibrarian = async (req, res) => {
             password: hashedPassword, 
             role: 'Librarian' 
         });
-
+        await sendEmail(
+            "You have been assigned the Book",
+            [user.email],
+            addLibrarianTemplate.generateLibrarianAssignmentTemplate(name)
+        );
+        
         await librarian.save();
         return res.status(201).json({ librarian: librarian.getPublicProfile() });
     } catch (error) {
@@ -120,6 +126,8 @@ exports.editLibrarian = async (req, res) => {
             librarian.password = await bcrypt.hash(req.body.password, 8);
         }
         await librarian.save();
+        // not sending the information via email
+        
         res.status(200).json({ librarian: librarian.getPublicProfile() });
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });

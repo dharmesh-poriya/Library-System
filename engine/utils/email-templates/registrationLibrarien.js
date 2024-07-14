@@ -92,4 +92,4 @@ function generateLibrarianAssignmentTemplate(username) {
     `;
 }
 
-module.export = { generateLibrarianAssignmentTemplate };
+module.exports = { generateLibrarianAssignmentTemplate };
