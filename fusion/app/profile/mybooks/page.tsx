@@ -91,7 +91,6 @@ const Page: React.FC = () => {
             {/* head */}
             <thead>
               <tr>
-                <th></th>
                 <th>Book Id</th>
                 <th>Issue Date</th>
                 <th>Status</th>
