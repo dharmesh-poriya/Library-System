@@ -95,4 +95,4 @@ function generateReturnBookEmail(bookName, returnDate) {
       `;
 }
 
-module.export = { generateReturnBookEmail };
+module.exports = { generateReturnBookEmail };
