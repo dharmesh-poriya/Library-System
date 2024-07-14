@@ -8,7 +8,7 @@ const sendgrid = require("../utils/services/sendgrid");
 const sendEmail = sendgrid.sendEmailWithSendGrid;
 const borrowedInformationTemplate = require("../utils/email-templates/borrowedInformation")
 const returnBookNotification = require("../utils/email-templates/returnBookNotification")
-const returnRemeinderInformation = require("../utils/email-templates/returnRemeinderInformation")
+const generateBookOverdueTemplate = require("../utils/email-templates/returnRemeinderInformation")
 
 // Assign Book to User
 exports.assignBook = async (req, res) => {
@@ -134,7 +134,7 @@ exports.sendNotificationsForDuedBook = async (req, res) => {
         await sendEmail(
             "Remeinder to Return the Book",
             [user.email],
-            returnRemeinderInformation.generateReturnBookEmail(book.title, borrow.dueDate)
+            generateBookOverdueTemplate.generateBookOverdueTemplate(book.title, borrow.dueDate)
         );
         return res.status(200).json({ message: 'Notification sent successfully', notification });
     } catch (error) {
