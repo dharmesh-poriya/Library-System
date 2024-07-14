@@ -9,6 +9,8 @@ const addLibrarianTemplate = require("../utils/email-templates/registrationLibra
 exports.addBook = async (req, res) => {
     try {
         const book = new Book(req.body);
+        book.date = Date.now();
+        book.addedBy = req.rootUser._id;
         await book.save();
         return res.status(201).json({ book, message: "Book added successfully" });
     } catch (error) {

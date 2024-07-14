@@ -1,51 +1,64 @@
 "use client"
-import React, { useState } from "react"
 
-interface Book {
-    _id: string;
-    isbn: string;
-    title: string;
-    author: string;
-    publisher: string;
-    publishedDate: Date;
-    date: Date;
-    genre: string;
-    quantity: number;
-    available: number;
-    categories: string;
-    thumbnail: string;
-    previewLink: string;
-    rating: number;
-}
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import toast from "react-hot-toast";
 
-type Props = {
-    book: Book;
-};
+const AddNewBook: React.FC = () => {
 
-const UpdateBook: React.FC = ({book}: Props) => {
+    // const userToken = localStorage.getItem("userToken");
+    // if (!userToken) {
+    //     console.error("User token not found");
+    //     return;
+    // }
 
-    const [updatedBook, setUpdatedBook] = useState<Book>(book);
+    const [formData, setFormData] = useState({
+        isbn: '',
+        title: '',
+        author: '',
+        publisher: '',
+        publishedDate: '',
+        date: '',
+        genre: '',
+        quantity: 0,
+        available: 0,
+        categories: '',
+        thumbnail: '',
+        previewLink: '',
+        rating: 0,
+        addedBy: '', // Assuming this will be set based on the logged-in user
+    });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setUpdatedBook({ ...updatedBook, [name]: value });
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        // onUpdate(updatedBook);
-        // Close modal here if needed
-    };
-
-    const closeModal = (book_id: any) => {
-        const modal = document.getElementById(`modal_${book_id}`) as HTMLDialogElement;
-        if (modal) {
-            modal.close();
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        const toastId = toast.loading("Sending data..");
+        try {
+            // Replace with your API endpoint
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/books`, formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("userToken")}`
+                }
+            });
+            // console.log('Book added successfully:', response.data);
+            toast.success(response.data.message, {
+                id: toastId,
+            });
+        } catch (error: any) {
+            toast.error(error.response.data.message, {
+                id: toastId,
+            });
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="mt-5">
             <div className="mb-4">
                 <label htmlFor="isbn" className="block text-sm font-medium text-gray-700">
                     ISBN
@@ -54,7 +67,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="isbn"
                     name="isbn"
-                    value={updatedBook.isbn}
+                    value={formData.isbn}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -68,7 +81,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="title"
                     name="title"
-                    value={updatedBook.title}
+                    value={formData.title}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -82,7 +95,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="author"
                     name="author"
-                    value={updatedBook.author}
+                    value={formData.author}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -96,7 +109,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="publisher"
                     name="publisher"
-                    value={updatedBook.publisher}
+                    value={formData.publisher}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -110,7 +123,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="date"
                     id="publishedDate"
                     name="publishedDate"
-                    value={updatedBook.publishedDate} // Format date as yyyy-mm-dd
+                    value={formData.publishedDate} // Format date as yyyy-mm-dd
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -124,7 +137,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="genre"
                     name="genre"
-                    value={updatedBook.genre}
+                    value={formData.genre}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -138,7 +151,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="number"
                     id="quantity"
                     name="quantity"
-                    value={updatedBook.quantity.toString()}
+                    value={formData.quantity.toString()}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -152,7 +165,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="categories"
                     name="categories"
-                    value={updatedBook.categories}
+                    value={formData.categories}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -166,7 +179,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="thumbnail"
                     name="thumbnail"
-                    value={updatedBook.thumbnail}
+                    value={formData.thumbnail}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -180,7 +193,7 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="previewLink"
                     name="previewLink"
-                    value={updatedBook.previewLink}
+                    value={formData.previewLink}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
@@ -194,21 +207,21 @@ const UpdateBook: React.FC = ({book}: Props) => {
                     type="text"
                     id="rating"
                     name="rating"
-                    value={updatedBook.rating}
+                    value={formData.rating}
                     onChange={handleInputChange}
                     className="p-3 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     required
                 />
             </div>
+            {/* <input type="hidden" name="addedBy" value={formData.addedBy} /> */}
+
             <div className="flex justify-center">
-                <button type="submit" className="btn btn-primary w-auto mx-5">
-                    Update
-                </button>
-                <button className="btn mx-5" onClick={() => closeModal(book.isbn)}>Close</button>
+                <button type="submit" className="btn btn-primary">Add Book</button>
                 {/* <button className="btn">Close</button> */}
             </div>
         </form>
     );
+
 }
 
-export default UpdateBook;
+export default AddNewBook;

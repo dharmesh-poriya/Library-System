@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import AddNewBook from "../components/Admin/Books/AddBook";
 
 export default function RootLayout({
     children,
@@ -25,6 +26,13 @@ export default function RootLayout({
         email: "",
         firstName: "",
     });
+
+    const openBookModel = () => {
+        const modal = document.getElementById(`new_book_model`) as HTMLDialogElement;
+        if (modal) {
+            modal.showModal();
+        }
+    }
 
     useEffect(() => {
         if (!localStorage.getItem("user") || !localStorage.getItem("userToken")) {
@@ -178,10 +186,11 @@ export default function RootLayout({
                                 </summary>
                                 <ul>
                                     <li>
+
                                         <Link
-                                            className={` ${pathname == "/admin/books/addbook" ? "active" : ""
-                                                }`}
-                                            href="/admin/books/addbook"
+                                            className="btn"
+                                            onClick={() => openBookModel()}
+                                            href="#"
                                         >
                                             Add New Book
                                         </Link>
@@ -189,8 +198,8 @@ export default function RootLayout({
                                     <li>
                                         <Link
                                             className={` ${pathname.startsWith("/admin/books/duebooks")
-                                                    ? "active"
-                                                    : ""
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             href="/admin/books/duebooks"
                                         >
@@ -200,8 +209,8 @@ export default function RootLayout({
                                     <li>
                                         <Link
                                             className={` ${pathname.startsWith("/admin/books/overduebooks")
-                                                    ? "active"
-                                                    : ""
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             href="/admin/books/overduebooks"
                                         >
@@ -238,8 +247,8 @@ export default function RootLayout({
                                     <li>
                                         <Link
                                             className={` ${pathname.startsWith("/dashboard/profile/preferences")
-                                                    ? "active"
-                                                    : ""
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             href="/dashboard/profile/preferences"
                                         >
@@ -249,8 +258,8 @@ export default function RootLayout({
                                     <li>
                                         <Link
                                             className={` ${pathname.startsWith("/dashboard/profile/billing")
-                                                    ? "active"
-                                                    : ""
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             href="/dashboard/profile/billing"
                                         >

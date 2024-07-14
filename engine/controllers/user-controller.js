@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.status(200).json({ user: user.getPublicProfile(), token, message: "User logged In successfuly" });
+    res.status(200).json({ user: user.getPublicProfile(), token: token, message: "User logged In successfuly" });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server Error" });
