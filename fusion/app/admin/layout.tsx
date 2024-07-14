@@ -200,7 +200,7 @@ export default function RootLayout({
                                         <Link
                                             className="btn"
                                             onClick={() => openBookModel()}
-                                            href="#"
+                                            href="/admin/books/addbook"
                                         >
                                             Add New Book
                                         </Link>
