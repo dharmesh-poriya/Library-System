@@ -84,7 +84,7 @@ export default function RootLayout({
                   <div className="w-10 rounded-full">
                     <img
                       alt="Tailwind CSS Navbar component"
-                      src="https://api.dicebear.com/9.x/lorelei/svg?seed=112"
+                      src={`https://api.dicebear.com/9.x/lorelei/svg?seed=${user.email}`}
                     />
                   </div>
                 </div>
@@ -149,10 +149,10 @@ export default function RootLayout({
           </Link>
           <div className="mx-auto my-5">
             <li>
-              <Link href="/issueBook">Issue Book</Link>
+              <Link href="/librarian/issueBook">Issue Book</Link>
             </li>
             <li>
-              <Link href="/dueBook">Due Books</Link>
+              <Link href="/librarian/dueBook">Due Books</Link>
             </li>
             <li>
               <Link href="/librarian">Profile</Link>

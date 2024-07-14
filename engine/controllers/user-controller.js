@@ -124,7 +124,7 @@ exports.deleteUser = async (req, res) => {
 // Get public user data
 exports.getPublicUserData = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.rootUser._id)
       .populate("borrowedBooks")
       .populate("notifications");
     if (!user) {

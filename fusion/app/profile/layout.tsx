@@ -23,12 +23,12 @@ export default function RootLayout({
     
       const [user, setUser] = useState({
         email: "",
-        firstName: "",
+        name: "",
       });
 
       useEffect(() => {
         if (!localStorage.getItem("user") || !localStorage.getItem("userToken")) {
-          // push("/");
+          push("/");
         } else {
           var userItem = JSON.parse(localStorage.getItem("user")!);
           setUser(userItem!);
@@ -66,8 +66,8 @@ export default function RootLayout({
             </div>
           </div>
           <div className="navbar-center">
-            <Link className="btn btn-ghost text-xl" href="/dashboard">
-              Hello {user.firstName} 🎉
+            <Link className="btn btn-ghost text-xl" href="/profile">
+              Hello {user.name} 🎉
             </Link>
           </div>
           <div className="navbar-end">
@@ -81,7 +81,7 @@ export default function RootLayout({
                   <div className="w-10 rounded-full">
                     <img
                       alt="Tailwind CSS Navbar component"
-                      src="https://api.dicebear.com/9.x/lorelei/svg?seed=112"
+                      src={`https://api.dicebear.com/9.x/lorelei/svg?seed=${user.email}`}
                     />
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function RootLayout({
               <Link href="/profile">Profile</Link>
             </li>
             <li>
-              <Link href="/profile/books">My Books</Link>
+              <Link href="/profile/mybooks">My Books</Link>
             </li>
             <li>
               <a href="/logout">Logout</a>

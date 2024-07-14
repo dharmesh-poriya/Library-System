@@ -8,7 +8,7 @@ export default function Home() {
       <div className="container mx-auto">
         <div className="text-3xl text-center py-16">Search for your favorite books</div>
         
-        <form action="/home/search" className="flex p-3 gap-4">
+        <form action="/home/books" className="flex p-3 gap-4">
           <input type="search" name="q" className="input input-bordered w-full" placeholder="Type your query"/>
           <button className="btn btn-accent">Search</button>
         </form>
