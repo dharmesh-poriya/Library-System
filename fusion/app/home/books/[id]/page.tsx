@@ -73,6 +73,8 @@ export default function BookDetails({ params }: { params: { id: string } }) {
 
                     <div className="line-clamp-[10]">{details.genre}</div>
 
+                    <div className="pt-2 font-bold">BookID: {details._id}</div>
+
                     {isAuthenticated && borrowButton}
                 </div>
             </div>}
