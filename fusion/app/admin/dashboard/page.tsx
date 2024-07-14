@@ -1,5 +1,5 @@
 import BooksAnalytics from '@/app/components/Admin/Analytics/BooksAnalytics';
-import UserAnalytics from '@/app/components/Admin/Analytics/userAnalytics';
+import UserAnalytics from '@/app/components/Admin/Analytics/UserAnalytics';
 import React from 'react';
 
 // type Props = {
