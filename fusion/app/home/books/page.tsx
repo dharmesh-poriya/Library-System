@@ -7,7 +7,7 @@ interface SearchParams {
 }
 
 async function searchBooks(query: string, page: number = 1, type: string) {
-    const url = new URL('books', process.env.API_BASE_URL);
+    const url = new URL('books', process.env.NEXT_PUBLIC_API_BASE_URL);
     url.searchParams.append('text', query);
     url.searchParams.append('page', page.toString());
     url.searchParams.append('field', type);
@@ -50,7 +50,7 @@ export default async function Search({ searchParams }: {
         if (searchParams.type) params.append('type', searchParams.type);
 
         return {
-            url: '/home/search?' + params.toString(),
+            url: '/home/books?' + params.toString(),
             page: page
         };
     });
@@ -93,7 +93,7 @@ export default async function Search({ searchParams }: {
                 ))}
             </div>
 
-            <div className="join flex justify-center py-4">
+            <div className="join flex justify-center py-4 mb-16">
                 {pageLinks.map(link => {
                     let btnClass = '';
                     if (link.page === currentPage) btnClass = 'btn-primary';

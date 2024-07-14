@@ -44,11 +44,13 @@ const Navbar = () => {
             <li><a href="/about">About us ⚙️</a></li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl" href="/">Vashishth Patel 🚀</a>
+        <a className="btn btn-ghost text-xl" href="/">📚 Libro</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><a href="/">Home 🏠</a></li>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
           {/* <li>
             <details>
               <summary>Services 🔨</summary>
@@ -58,11 +60,13 @@ const Navbar = () => {
               </ul>
             </details>
           </li> */}
-          <li><a href="/about">About us ⚙️</a></li>
+          <li>
+            <Link href="/home/books">Books</Link>
+          </li>
         </ul>
       </div>
       <div className="navbar-end">
-        {!user ? <Link href="/auth/login" className="btn">Login</Link> : ""}
+        {!user ? <Link href="/auth/login" className="btn btn-primary">Login</Link> : ""}
         {user && user.role === 'Admin' && (
           <Link href="/admin">
             <div className="dropdown dropdown-end">
