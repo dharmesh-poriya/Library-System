@@ -1,8 +1,34 @@
 import { BookCard } from "./book_card";
 
-import dummyData from "@/data/data.json";
+async function getRecommendations(type) {
+    let suffix = null;
+    
+    switch (type) {
+        case 'new_arrivals':
+            suffix = 'newArrivals';
+            break;
 
-export function Recommendations({
+        case 'trending':
+            suffix = 'trending';
+            break;
+
+        default:
+            throw new Error('Unsupported recommendation type.');
+    }
+
+    console.log(process.env.API_BASE_URL + `books/${suffix}`);
+    const res = await fetch(process.env.API_BASE_URL + `books/${suffix}`);
+
+    if (!res.ok) {
+        throw new Error(res.json().message);
+    }
+
+    const json = await res.json();
+
+    return json.books;
+}
+
+export async function Recommendations({
     type
 }) {
     let title = 'Unknown';
@@ -13,7 +39,8 @@ export function Recommendations({
         title = 'Trending';
     }
 
-    const books = dummyData.books.map(book => {
+    const recommendedBooks = await getRecommendations(type);
+    const books = recommendedBooks.map(book => {
         return {
             id: book._id,
             title: book.title,
