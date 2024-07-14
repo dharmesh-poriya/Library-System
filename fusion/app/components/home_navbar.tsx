@@ -12,7 +12,7 @@ export function HomeNavbar() {
     if (pathname === '/home') {
         endButtonTitle = 'Log In';
         endButtonUrl = '/home/login';
-    } else if (pathname === '/home/login') {
+    } else if (pathname === '/home/login' || pathname === '/home/search') {
         endButtonTitle = 'Home';
         endButtonUrl = '/home';
     }

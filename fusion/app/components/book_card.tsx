@@ -1,4 +1,5 @@
 export function BookCard({
+    id,
     title,
     author,
     publishedYear,
@@ -13,7 +14,7 @@ export function BookCard({
     imageUrl: string
 }) {
     return (
-        <a href="#">
+        <a href={`/home/books/${id}`}>
             <div className="flex gap-6">
                 <img src={imageUrl}
                     alt={title} className="object-contain object-top"/>
