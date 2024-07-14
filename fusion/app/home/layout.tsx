@@ -1,4 +1,4 @@
-import { HomeNavbar } from "../components/home_navbar";
+import Navbar from "../components/navbar";
 
 export default function RootLayout({
     children,
@@ -8,7 +8,7 @@ export default function RootLayout({
     return (
         <>
             <header>
-                <HomeNavbar />
+                <Navbar />
             </header>
 
             <main>
