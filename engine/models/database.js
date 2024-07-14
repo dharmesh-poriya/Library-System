@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const jwt = require("jsonwebtoken");
 const secret_key = process.env["JWT_SECRET"];
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 // User Schema
 const userSchema = new Schema({
@@ -58,7 +59,8 @@ const bookSchema = new Schema({
     rating: { type: Number, required: true },
     addedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 }, { timestamps: true });
-
+// Apply the pagination plugin to the schema
+bookSchema.plugin(mongoosePaginate);
 // Borrow Schema
 const borrowSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },

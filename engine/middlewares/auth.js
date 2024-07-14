@@ -7,10 +7,10 @@ const auth = async (req, res, next) => {
     try {
         const authorizationHeader = req.header('Authorization');
         if (!authorizationHeader) {
-            return res.statBearerus(401).json({ error: "Authentication Headers Not Found!" });
+            return res.statBearerus(401).json({ message: "Authentication Headers Not Found!" });
         }
 
-        const token = authorizationHeader.replace(' ', ''); // Remove 'Bearer ' from the header value
+        const token = authorizationHeader.replace('Bearer ', ''); // Remove 'Bearer ' from the header value
 
         console.log("Auth Attempt!");
 
@@ -19,15 +19,15 @@ const auth = async (req, res, next) => {
         var rootUser = await User.findOne({ _id: verifytoken._id, "tokens.token": token });
 
         if (!rootUser) {
-            return res.status(404).json({ error: "User Not Found!" });
+            return res.status(404).json({ message: "User Not Found!" });
         }
         req.token = token;
         req.rootUser = rootUser;
         req.userId = rootUser._id;
         next();
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ error: "Something went wrong!" });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ message: "Something went wrong!" });
     }
 }
 
