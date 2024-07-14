@@ -21,6 +21,7 @@ router.get("/users", auth, userC.getPublicUserData);
 router.get("/books/trending", bookC.getTrendingBooks);
 router.get("/books/newArrivals", bookC.getNewArrivalBooks);
 router.get("/books", bookC.searchBooks);
+router.get("/books/:id", bookC.getBookById);
 
 // Admin Book Routes
 router.post("/admin/books", auth, roleVerification.isAdminUser, adminC.addBook);
