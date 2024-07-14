@@ -57,6 +57,7 @@ export async function Recommendations({
             <div className="flex flex-col gap-6">
                 {books.map(book => (
                     <BookCard
+                        id={book.id}
                         title={book.title}
                         author={book.author}
                         publishedYear={book.publishedYear}
