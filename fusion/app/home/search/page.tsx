@@ -2,13 +2,15 @@ import { BookCard } from "@/app/components/book_card";
 
 interface SearchParams {
     q: string,
-    page: number
+    page: number,
+    type: string
 }
 
-async function searchBooks(query: string, page: number = 1) {
+async function searchBooks(query: string, page: number = 1, type: string) {
     const url = new URL('books', process.env.API_BASE_URL);
     url.searchParams.append('text', query);
     url.searchParams.append('page', page.toString());
+    url.searchParams.append('field', type);
 
     const res = await fetch(url);
 
@@ -27,11 +29,18 @@ export default async function Search({ searchParams }: {
     let totalPages = 0;
     let currentPage = 0;
     let paginationRange = null;
+    let type = null;
 
     const query = searchParams.q ? searchParams.q : '';
 
     if (searchParams.q) {
-        const searchResult = await searchBooks(searchParams.q, searchParams.page);
+        const type = searchParams.type ?? 'title'
+        
+        const searchResult = await searchBooks(
+            searchParams.q, 
+            searchParams.page,
+            type
+        );
 
         totalPages = searchResult.totalPages;
         currentPage = searchResult.currentPage;
@@ -55,6 +64,11 @@ export default async function Search({ searchParams }: {
             <div className="mt-16">
                 <div className="text-2xl mb-4">Search for books</div>
                 <form action="" className="flex gap-4">
+                    <select className="select select-bordered" name="type" defaultValue={type}>
+                        <option value="title">Title</option>
+                        <option value="isbn">ISBN</option>
+                        <option value="author">Author</option>
+                    </select>
                     <input type="search" name="q" className="input input-bordered w-full" placeholder="Type your query" defaultValue={query} />
                     <button className="btn btn-accent">Search</button>
                 </form>
