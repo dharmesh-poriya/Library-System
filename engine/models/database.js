@@ -67,6 +67,7 @@ const borrowSchema = new Schema({
     book: { type: Schema.Types.ObjectId, ref: 'Book', required: true },
     borrowDate: { type: Date, required: true, default: Date.now },
     dueDate: { type: Date, required: true },
+    status: { type: String, enum: ['Borrowed', 'Returned', 'onDue'], required: true, default: "Borrowed" },
     returnDate: { type: Date },
     lateFee: { type: Number, default: 0 }
 }, { timestamps: true });
