@@ -1,6 +1,6 @@
 
 async function getBookDetails(id: string) {
-    const res = await fetch(process.env.API_BASE_URL + `books/${id}`);
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+ `books/${id}`);
     
     if (!res.ok) {
         throw new Error('Error fetching book details');

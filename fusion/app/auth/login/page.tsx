@@ -1,55 +1,132 @@
-import React from "react";
-import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "../components/user-auth-form";
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+const ROOT_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { useRouter } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Login | Website",
-  description: "Login to our Website",
-};
+const Login = () => {
+  const { push } = useRouter();
+  const [user, setUser] = useState({
+    password: "",
+    email: "",
+  });
+  useEffect(() => {
+    if (localStorage.getItem("user") && localStorage.getItem("userToken")) {
+      push("/");
+    }
+  });
+  const handleChange = (e: any) => {
+    const { id, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [id]: value,
+    }));
+  };
 
-const LoginPage: React.FC = () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    // Check if there is a previous login attempt in the last 10 minutes
+    // Not Needed In Login
+    // const previousLoginAttempt = localStorage.getItem("userLoginAttempt");
+    // if (previousLoginAttempt) {
+    //   const currentTime = Date.now();
+    //   const timeDifference = currentTime - parseInt(previousLoginAttempt, 10);
+
+    //   // If less than 10 minutes have passed since the last attempt, show an error toast
+    //   if (timeDifference < 10 * 60 * 1000) {
+    //     toast.error(
+    //       "Please wait for 10 minutes before attempting to login in again."
+    //     );
+    //     return;
+    //   }
+    // }
+
+    const toastId = toast.loading("Sending data..");
+
+    try {
+      const response = await axios.post(`${ROOT_URL}/auth/login`, { user });
+      console.log(response.data.message); // Assuming the server returns some data
+      toast.success(response.data.message, {
+        id: toastId,
+      });
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("userToken", response.data.token);
+      // Update the timestamp for the latest signup attempt
+      localStorage.setItem("userLoginAttempt", Date.now().toString());
+      setUser({
+        password: "",
+        email: "",
+      });
+      push("/dashboard");
+    } catch (error: any) {
+      console.error("Error loggin in:", error);
+      toast.error(error.response.data.message, {
+        id: toastId,
+      });
+    }
+  };
+
   return (
-    <div className="lg:p-8">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Login to your Account
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Enter your email below to create your account
-          </p>
+    <div className="hero min-h-screen bg-base-100">
+      <div className="hero-content flex-col">
+        <div className="text-center lg:text-left">
+          <h1 className="text-5xl font-bold text-center">Libro Login 🚀</h1>
         </div>
-        <UserAuthForm />
-        <p className="text-center text-sm">
-          Don't have account ?{" "}
-          <Link href="/auth/signup" className="text-blue-400">
-            Signup
-          </Link>
-        </p>
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          By clicking continue, you agree to our{" "}
-          <Link
-            href="/terms"
-            className="underline underline-offset-4 hover:text-primary"
-          >
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="/privacy"
-            className="underline underline-offset-4 hover:text-primary"
-          >
-            Privacy Policy
-          </Link>
-          .
-        </p>
+        <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <form className="card-body" onSubmit={handleSubmit}>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="email"
+                value={user.email}
+                onChange={handleChange}
+                id="email"
+                placeholder="email"
+                className="input input-bordered"
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                value={user.password}
+                onChange={handleChange}
+                id="password"
+                placeholder="password"
+                className="input input-bordered"
+                required
+              />
+              <label className="label">
+                <a
+                  href="/forgotPassword"
+                  className="label-text-alt link link-hover"
+                >
+                  Forgot password?
+                </a>
+              </label>
+            </div>
+            <div className="form-control mt-6">
+              <button type="submit" className="btn btn-outline">
+                Login
+              </button>
+            </div>
+            <label className="label">
+              <a href="/auth/signup" className="label-text-alt link link-hover">
+                Not Registered? Signup Here 🔥
+              </a>
+            </label>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default Login;

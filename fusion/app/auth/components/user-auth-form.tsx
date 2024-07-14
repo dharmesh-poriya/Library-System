@@ -8,22 +8,27 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface UserAuthFormProps {
+  email: string;
+  password: string;
+  setEmail: (email: string) => void;
+  setPassword: (password: string) => void;
+}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+export const UserAuthForm: React.FC<UserAuthFormProps> = ({ email, password, setEmail, setPassword }) => {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
+    event.preventDefault();
+    setIsLoading(true);
 
     setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+      setIsLoading(false);
+    }, 3000);
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cn("grid gap-6")}>
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -38,6 +43,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Email
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              disabled={isLoading}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Button disabled={isLoading} className="btn btn-primary">
@@ -67,5 +86,5 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         GitHub
       </Button>
     </div>
-  )
+  );
 }

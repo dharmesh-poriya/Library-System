@@ -10,7 +10,7 @@ const generateRegistrationTemplate = require("../utils/email-templates/registrat
 // User signup
 exports.signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body.user;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -49,7 +49,7 @@ exports.signup = async (req, res) => {
 // User login
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body.user;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.status(200).json({ user: user.getPublicProfile(), token });
+    res.status(200).json({ user: user.getPublicProfile(), token, message: "User logged In successfuly" });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Internal Server Error" });

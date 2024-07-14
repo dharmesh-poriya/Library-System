@@ -16,8 +16,8 @@ async function getRecommendations(type) {
             throw new Error('Unsupported recommendation type.');
     }
 
-    console.log(process.env.API_BASE_URL + `books/${suffix}`);
-    const res = await fetch(process.env.API_BASE_URL + `books/${suffix}`);
+    console.log(process.env.NEXT_PUBLIC_API_BASE_URL+ `books/${suffix}`);
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+ `books/${suffix}`);
 
     if (!res.ok) {
         throw new Error(res.json().message);
