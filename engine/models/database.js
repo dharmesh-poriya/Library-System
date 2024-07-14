@@ -47,6 +47,7 @@ const bookSchema = new Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     publisher: { type: String, required: true },
+    publishedDate: { type: Date, required: true },
     date: { type: Date, required: true },
     genre: { type: String, required: true },
     quantity: { type: Number, required: true },
