@@ -1,8 +1,18 @@
-import React from 'react';
+"use client"
+
+import React, {useEffect, useState} from 'react';
 
 const ProfilePage: React.FC = () => {
 
+    const [user, setUser] = useState({
+        name: "",
+        email: "",
+    });
 
+    useEffect(()=>{
+        setUser(JSON.parse(localStorage.getItem("user")!))
+    }, []);
+    
     return (
         <div className="p-4">
             <div className="bg-white shadow-lg rounded-lg p-6">
@@ -10,18 +20,18 @@ const ProfilePage: React.FC = () => {
                 <div className="flex items-center mb-4">
                     <img
                         className="w-12 h-12 rounded-full mr-4"
-                        src="https://api.dicebear.com/9.x/lorelei/svg?seed=112"
+                        src={`https://api.dicebear.com/9.x/lorelei/svg?seed=${user.email}`}
                         alt="User Avatar"
                     />
                     <div>
-                        <h2 className="text-lg font-semibold">John Doe</h2>
-                        <p className="text-gray-500">Software Engineer</p>
+                        <h2 className="text-lg font-semibold">{user.name}</h2>
+                        {/* <p className="text-gray-500">Software Engineer</p> */}
                     </div>
                 </div>
                 <div>
                     <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
-                    <p className="text-gray-500">Email: john.doe@example.com</p>
-                    <p className="text-gray-500">Phone: +1 123-456-7890</p>
+                    <p className="text-gray-500">Email: {user.email}</p>
+                    {/* <p className="text-gray-500">Phone: +1 123-456-7890</p> */}
                 </div>
             </div>
             <div className="drawer drawer-end">
