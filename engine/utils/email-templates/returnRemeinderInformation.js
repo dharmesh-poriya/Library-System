@@ -90,8 +90,4 @@ function generateBookOverdueTemplate(bookname) {
   `;
 }
 
-<<<<<<< HEAD:engine/utils/email-templates/returnInformation.js
-module.exports = { generateBookOverdueTemplate };
-=======
 module.exports = { generateReturnBookEmail };
->>>>>>> aead0b11d9f217a70f1cdccfd397db758787b53a:engine/utils/email-templates/returnRemeinderInformation.js
