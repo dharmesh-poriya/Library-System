@@ -6,8 +6,8 @@ import { opun_black, opun_light, opun_medium } from "./assets/fonts/FontMaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Website",
-  description: "Here's Website Description",
+  title: "Libro",
+  description: "Borrow books using this awesome library management site.",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="light">
-      <body className={`${opun_medium.variable} font-opun-medium`}>{children}</body>
+      <body className={`${inter}`}>{children}</body>
     </html>
   );
 }
