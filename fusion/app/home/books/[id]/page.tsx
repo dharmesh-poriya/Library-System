@@ -23,15 +23,18 @@ async function getBorrowStatus(id: string) {
     if (!response.ok) return null;
     
     const data = await response.json();
-    return data.borrowedBooks?.some((borrowId: string) => id === borrowId);
+    console.log(data)
+    return data.user.borrowedBooks?.some((borrowId: any) => id === borrowId.book);
 }
 
 export default function BookDetails({ params }: { params: { id: string } }) {
     const [details, setDetails] = useState();
-    const isAuthenticated = localStorage.getItem("user") && localStorage.getItem("userToken");
+    const [isAuthenticated, setisAuthenticated] = useState(false)
+    // const isAuthenticated = localStorage.getItem("user") && localStorage.getItem("userToken");
     const [hasBorrowed, setHasBorrowed] = useState(false); 
 
     useEffect(() => {
+        setisAuthenticated((localStorage.getItem("user") && localStorage.getItem("userToken")))
         getBookDetails(params.id).then(details => setDetails(details));
         getBorrowStatus(params.id).then((status) => setHasBorrowed(status));
     }, []);
