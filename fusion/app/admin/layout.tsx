@@ -42,6 +42,16 @@ export default function RootLayout({
             setUser(userItem!);
         }
     }, []);
+    const router = useRouter();
+    const doLogout = () => {
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('userLoginAttempt');
+        toast.success("Logout Successful!!")
+        
+        // Redirect to the login page or home page after logging out
+        router.push('/auth/login');
+    }
 
     return (
         <div className="drawer lg:drawer-open">
@@ -222,9 +232,9 @@ export default function RootLayout({
                         </li>
                         <li>
                             <Link
-                                className={` ${pathname.startsWith("/dashboard/chat") ? "active" : ""
+                                className={` ${pathname.startsWith("#") ? "active" : ""
                                     }`}
-                                href="/dashboard/chat"
+                                href="#"
                             >
                                 Librarians
                             </Link>
@@ -286,7 +296,7 @@ export default function RootLayout({
               </details>
             </li> */}
                         <li>
-                            <a href="/logout">Logout</a>
+                            <button onClick={() => doLogout()}>Logout</button>
                         </li>
                     </div>
                 </ul>
