@@ -1,6 +1,8 @@
 import React from 'react';
 
 const ProfilePage: React.FC = () => {
+
+
     return (
         <div className="p-4">
             <div className="bg-white shadow-lg rounded-lg p-6">
@@ -21,6 +23,16 @@ const ProfilePage: React.FC = () => {
                     <p className="text-gray-500">Email: john.doe@example.com</p>
                     <p className="text-gray-500">Phone: +1 123-456-7890</p>
                 </div>
+            </div>
+            <div className="drawer drawer-end">
+            <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+            <div className="drawer-side">
+                <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
+                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                <li><a>Sidebar Item 1</a></li>
+                <li><a>Sidebar Item 2</a></li>
+                </ul>
+            </div>
             </div>
         </div>
     );
