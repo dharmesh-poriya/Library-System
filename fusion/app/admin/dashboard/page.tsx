@@ -9,8 +9,8 @@ import React from 'react';
 
 const Dashboard: React.FC = () => {
     return (
-        <div className='p-4 border border-blue-600 flex flex-col justify-center'>
-            <div className="stats shadow md:w-auto sm:w-auto xs:w-auto lg:mx-44 bg-slate-100 border border-red-500">
+        <div className='p-4 flex flex-col justify-center'>
+            <div className="stats shadow md:w-auto sm:w-auto xs:w-auto lg:mx-44 bg-slate-100">
                 <div className="stat">
                     <div className="stat-figure text-secondary">
                         <svg
@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-green-700'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4'>
                 <div className=''>
                     <UserAnalytics isDashboard={true} />
                 </div>
